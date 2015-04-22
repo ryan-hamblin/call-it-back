@@ -27,6 +27,11 @@ and what you should write is the favNum function that makes the code above work,
   //Code Here for first
   
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
+var first = function (array, cb) {
+  cb(array[0]);
+};
+
 first(names, function(firstName){
   console.log('The first name in names is ', firstName)
 });
@@ -41,6 +46,11 @@ first(names, function(firstName){
   //Code Here for last
 
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
+var last = function(array, cb) {
+  cb(array[array.length - 1]);
+};
+
 last(names, function(lastName){
   console.log('The last name in names is ', lastName);
 });
@@ -57,7 +67,10 @@ last(names, function(lastName){
 
 
   //Code Here for multiply
-
+var multiply = function(num1, num2, cb) {
+  var num3 = num1 * num2
+  cb(num3);
+};
 multiply(4, 3, function(answer){
   console.log('The answer is ', answer); //should console.log 12
 })
@@ -75,11 +88,16 @@ multiply(4, 3, function(answer){
   //Code Here for contains
 
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
-contains(names, 'Colt', function(yes){
-  if(yes === true){
-    'Colt is in the array';
+
+var contains = function (array, element, cb) {
+  cb(array.indexOf(element) !== -1);
+};
+
+contains(names, 'Colt', function(result){
+  if(result === true){
+    console.log('Colt is in the array');
   } else {
-    'Colt is not in the array';
+    console.log('Colt is not in the array');
   }
 });
 
@@ -93,12 +111,44 @@ contains(names, 'Colt', function(yes){
 
 
     //Code Here for uniq
-
+// create an object on this one.. myobject.tyler Objects can't have duplicates
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
+var uniq = function (array, cb) {  
+  for (var i = 0; i < array.length; i++) {
+    if (array.lastIndexOf(array[i], -1) !== i) {
+      array.splice(i, 1)
+    }
+  }
+  cb(array);
+}
+
 uniq(names, function(uniqArr){
   console.log('The new names array with all the duplicate items removed is ', uniqArr);
 });
 
+///////////////////Same as above attemped as an object///////////////////////////////
+var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
+
+
+var uniq = function (array, cb) {
+  var namesObj = {};
+  var noDups = [];
+  for (var i = 0; i < array.length; i++) {
+    namesObj[array[i]] = array[i];
+  }
+  for (var key in namesObj) {
+      noDups.push(key);
+    }
+  cb(noDups);
+}
+
+
+  uniq(names, function(uniqArr){
+  console.log('The new names array with all the duplicate items removed is ', uniqArr);
+});
+    
 
 
 
@@ -111,8 +161,15 @@ uniq(names, function(uniqArr){
     //Code Here for each
 
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
+var each = function (array, cb) {
+  for (var i = 0; i < array.length; i++) {
+    cb(array[i], i);
+  }
+}
+
 each(names, function(item, indice){
-  console.log('The item in the ' + indice + 'position is ' + item)
+  console.log('The item in the ' + indice + ' position is ' + item)
 });
 
 
@@ -148,6 +205,13 @@ var users = [
   },
 ];
 
-getUserById('16t', function(user){
-  console.log('The user with the id 16t has the email of ' + user.email + 'the name of ' + user.name + ' and the address of ' + user.address); 
+var getUserById = function (object, str, cb) {
+ for (var i = 0; i < users.length; i++) {
+   if (users[i].id === str) {
+     cb(users[i]);
+   }
+ }
+}
+getUserById(users, '16t', function(user){
+  console.log('The user with the id 16t has the email of ' + user.email + ' the name of ' + user.name + ' and the address of ' + user.address); 
 });
